@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Calendar";
+}
+
+<h2>Calendar</h2>
+<script src="~/Scripts/angular-route.min.js"></script>
+<base href="/home/calendar" />
+<div ng-app="CalendarApp"> 
+   <div class="container" ng-controller="CalendarCtrl">
+       <div ng-view></div>
+   </div>
+    
+
+</div>
+<script src="~/Scripts/Apps/CalendarApp.js"></script>

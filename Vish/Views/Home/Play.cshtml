@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Play";
+}
+<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<div ng-app="TicTacToeApp">
+    <div class="container" ng-controller="TicTacToeCtrl">
+         <h1>Winner :{{Won}}</h1>
+        <button style="display:none" id="ServerUpdateBtn"></button>
+        
+        <div class="row">
+            <a id="a1" href="javascript:void(0)" ng-click="PutSign(1)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image1.img}}" ng-class="{pulse:Image1.pulsate}" /></div></a>
+            <a id="a2" href="javascript:void(0)" ng-click="PutSign(2)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image2.img}}" ng-class="{pulse:Image2.pulsate}"/></div></a>
+            <a id="a3" href="javascript:void(0)" ng-click="PutSign(3)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image3.img}}" ng-class="{pulse:Image3.pulsate}"/></div></a>
+        </div>                                                                                                                                   
+        <div class="row">                                                                                                                        
+            <a id="a4" href="javascript:void(0)" ng-click="PutSign(4)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image4.img}}" ng-class="{pulse:Image4.pulsate}" /></div></a>
+            <a id="a5" href="javascript:void(0)" ng-click="PutSign(5)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image5.img}}" ng-class="{pulse:Image5.pulsate}"/></div></a>
+            <a id="a6" href="javascript:void(0)" ng-click="PutSign(6)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image6.img}}" ng-class="{pulse:Image6.pulsate}"/></div></a>
+        </div>                                                                                                                                    
+        <div class="row">                                                                                                                         
+            <a id="a7" href="javascript:void(0)" ng-click="PutSign(7)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image7.img}}" ng-class="{pulse:Image7.pulsate}"/></div></a>
+            <a id="a8" href="javascript:void(0)" ng-click="PutSign(8)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image8.img}}" ng-class="{pulse:Image8.pulsate}"/></div></a>
+            <a id="a9" href="javascript:void(0)" ng-click="PutSign(9)"><div class="tile col-md-2 col-xs-2"><img height="100" width="100" class="thumbnail" ng-src="{{Image9.img}}" ng-class="{pulse:Image9.pulsate}"/></div></a>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Apps/TicTacToe.js"></script>

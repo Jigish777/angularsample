@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-app="EmployeeApp">
+    <div class="loading"></div>
+    <div class="container" ng-controller="EmployeeCtrl" ng-init="BindValidation()">
+        <div class="row">
+            <div class="col-md-offset-10">
+                <button class="btn btn-primary" ng-click="OpenForAdd()">Add</button>
+            </div>
+        </div>
+        <div class="row">
+
+
+            <table class="table" ng-show="Employees.length>0">
+                <thead>
+                    <tr>
+                        <td>Photo</td>
+                        <td>FirstName</td>
+                        <td>LastName</td>
+                        <td>Email</td>
+                        <td>Gender</td>
+                        <td>CreatedAt</td>
+                        <td>UpdatedAt</td>
+                        <td>Operation</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="emp in Employees">
+                        <td><img class="img-circle" height="50" width="50" ng-src="{{(!!emp.ProfilePic)?emp.ProfilePic:defaultPic}}" /></td>
+                        <td ng-bind=emp.FirstName></td>
+                        <td ng-bind=emp.LastName></td>
+                        <td ng-bind=emp.Email></td>
+                        <td ng-bind=emp.StrGender></td>
+                        <td ng-bind=emp.StrCreateDate></td>
+                        <td ng-bind=emp.StrUpdateDate></td>
+                        <td>
+                            <button class="btn btn-primary" ng-click="OpenForUpdate(emp)">
+                                Edit
+                            </button>
+                            <button class="btn btn-primary" ng-click="DeleteEmployee(emp)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-keyboard="false" >&times;</button>
+                        <h4 class="modal-title">
+                            {{Mode}} Employee
+                        </h4>
+                        <div class="alert alert-success" ng-show="ShowSuccessMessage">
+                            <strong>Success!</strong> User has been successfully <span>{{successMessage}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form id="EmpForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="txtFirstName">FirstName</label>
+                                        <input type="text" class="form-control validate[required]" id="txtFirstName" name="txtFirstName" ng-model="emp.FirstName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="txtLastName">LastName</label>
+                                        <input type="text" class="form-control validate[required]" id="txtLastName" name="txtLastName" ng-model="emp.LastName" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="txtEmail">Email</label>
+                                        <input type="text" class="form-control validate[required,custom[email]]" id="txtEmail" name="txtEmail" ng-model="emp.Email" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="txtType">Type</label>
+                                        <select name="ddlType" id="ddlType" class="form-control validate[required]" ng-model="emp.Type"
+                                                ng-options="Type.Value as Type.Text for Type in UserType" placeholder="--Select--">
+                                            <option value="">---Select---</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="chkHobby">Hobbies</label>
+                                        <p ng-repeat="Hobby in Hobbies">
+                                            <input type="checkbox"
+                                                   value="{{Hobby.Name}}"
+                                                   ng-model="Hobby.selected"
+                                                   ng-change="ToggleHobby(emp)" /> {{Hobby.Name}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="chkHobby">Gender</label>
+                                        <p ng-repeat="Gender in Genders">
+                                            <input type="radio"
+                                                   name="rdGender"
+                                                   value="{{Gender.Value}}"
+                                                   ng-model="emp.Gender" /> {{Gender.Text}}
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="chkHobby">Profile Pic</label>
+                                        <img class="thumbnail" id="ProfileThumb" ng-src="{{emp.ProfilePic}}" height="200" width="200" ng-click="TriggerFileClick(emp)"/>
+                                            <input type="file" style="display:none" id="ProfilePic" ng-change="ChangePic(emp)" ng-model="emp.ProfilePic"/> 
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-if="Mode=='Add'" type="button" class="btn btn-primary" ng-click="AddEmployee(emp)">Add</button>
+                        <button ng-if="Mode=='Edit'" type="button" class="btn btn-primary" ng-click="UpdateEmployee(emp)">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/Apps/Employee.js"></script>

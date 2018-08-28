@@ -1,0 +1,32 @@
+﻿<style>
+    .cells {
+        border:1px solid #0094ff;
+        padding:10px;
+    }
+    .MonthBar {
+        cursor:pointer
+    }
+</style>
+
+    <div class="col-md-6">
+        <div class="row">
+            <a ng-click="clicked(MonthName)" class="MonthBar">
+                <div class="cells col-md-7 text-center">{{MonthName}}</div>
+            </a>
+        </div>
+        <div class="row">
+            <div class="cells col-md-1">Sun</div>
+            <div class="cells col-md-1">Mon</div>
+            <div class="cells col-md-1">Tue</div>
+            <div class="cells col-md-1">Wed</div>
+            <div class="cells col-md-1">Thu</div>
+            <div class="cells col-md-1">Fri</div>
+            <div class="cells col-md-1">Sat</div>
+        </div>
+
+
+        <div class="row" ng-repeat="Row in Rows">
+            {{$index}}
+            <div class="cells col-md-1" ng-repeat="num in Row track by $index">{{num}}</div>
+        </div>
+    </div>
