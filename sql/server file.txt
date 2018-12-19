@@ -1,0 +1,59 @@
+==================== server method=====================
+
+        public bool InsertOfflineMetrics(List<OfflineMetrics> list,string UserAgent)
+        {
+            DataTable tvp = new DataTable();
+            tvp.Columns.Add(new DataColumn("ProfileId", typeof(int)));
+            tvp.Columns.Add(new DataColumn("PlaybookId", typeof(int)));
+            tvp.Columns.Add(new DataColumn("PageId", typeof(int)));
+            tvp.Columns.Add(new DataColumn("SectionId", typeof(int)));
+            tvp.Columns.Add(new DataColumn("CompanyId", typeof(int)));
+            tvp.Columns.Add(new DataColumn("UtcTimeStamp", typeof(string)));
+            tvp.Columns.Add(new DataColumn("CreateDate", typeof(DateTime)));
+            tvp.Columns.Add(new DataColumn("HitType", typeof(int)));
+            tvp.Columns.Add(new DataColumn("ClientCreateDate", typeof(DateTime)));
+            tvp.Columns.Add(new DataColumn("AppVersion", typeof(string)));
+            tvp.Columns.Add(new DataColumn("UserAgent", typeof(string)));
+            tvp.Columns.Add(new DataColumn("ResourceId", typeof(int)));
+
+            foreach (var item in list)
+            {
+                if (item != null && item.ProfileId !=0)
+                {
+                    item.ClientCreateDate = Utilities.FromEpoch(item.UtcTimeStamp);
+                    item.CreateDate = DateTime.Now;
+                    tvp.Rows.Add(item.ProfileId, item.PlaybookId, item.PageId, item.SectionId, item.CompanyId, item.UtcTimeStamp, item.CreateDate, item.HitType, item.ClientCreateDate, item.AppVersion,UserAgent, item.ResourceId);
+
+                }
+            }
+            var context = new PlaybooksContext();
+            var listPara = new SqlParameter { ParameterName = "@list", Value = tvp, SqlDbType = SqlDbType.Structured,TypeName= "OfflineMetricObj" };
+            var result = context.Database.ExecuteSqlCommand("EXEC InsertOfflineAnalyticsData @list", listPara);
+          
+
+            
+            return true;
+        }
+
+
+
+=============== server object ====================================
+
+
+ public class OfflineMetrics
+    {
+        [Key]
+        public long Id { get; set; }
+        public int ProfileId { get; set; }
+        public int PlaybookId { get; set; }
+        public int PageId { get; set; }
+        public int SectionId{ get; set; }
+        public int CompanyId { get; set; }
+        public int ResourceId { get; set; }
+        public long UtcTimeStamp { get; set; }
+        public DateTime CreateDate { get; set; }
+        public HitType HitType { get; set; }
+        public DateTime ClientCreateDate { get; set; }
+        public string AppVersion { get; set; }
+        public string UserAgent { get; set; }
+    }

@@ -1,0 +1,73 @@
+==================== return single integer ================= entity squery direct
+  string strQuery = @"SELECT Id FROM Containers WHERE PlaybookId = @PlaybookId AND IsDeleted = 0 AND IsDraftMode = 0";
+
+            var containers =  _db.Database.SqlQuery<int>(strQuery, new SqlParameter("@PlaybookId", playbookId)).ToList();
+
+
+
+======================== retur ture or false =========================== entity framework
+
+ var HasAccess = false;
+            try
+            {
+                var profileIdPara = new System.Data.SqlClient.SqlParameter { ParameterName = "@ProfileId", Value = profileId };
+                var resourceIdPara = new System.Data.SqlClient.SqlParameter { ParameterName = "@ResourceId", Value = resourceId };
+                HasAccess = _db.Database.SqlQuery<bool>("EXEC [ProfileAccessToResource] @ProfileId,@ResourceId", profileIdPara, resourceIdPara).FirstOrDefault();
+                return HasAccess;
+            }
+            catch (Exception ex)
+            {
+                HasAccess = false;
+                Utilities.LogError(ex);
+                Utilities.LogError("Profile Id:" + profileId.ToString() + "Asset Id:" + resourceId + "except");
+                return HasAccess;
+            }
+
+
+=================== return list of daa using sql query ================ entity ramework
+
+        public List<ResourceDownloadsReport> GetAllResourceDownloadsForCompany(string strpIds,int playbookId,DateTime startDate, DateTime endDate, int pageId, int companyId)
+        {
+            var profileIdsPara = new SqlParameter { ParameterName = "@strProfileId", Value = strpIds };
+            var playbookIdPara = new SqlParameter { ParameterName = "@PlaybookId", Value = playbookId };
+            var startDatePara = new SqlParameter { ParameterName = "@StartDate", Value = startDate };
+            var endDatePara = new SqlParameter { ParameterName = "@EndDate", Value = endDate };
+            var pageIdPara = new SqlParameter { ParameterName = "@PageId", Value = pageId };
+            var companyIdPara = new SqlParameter { ParameterName = "@ComapnyId", Value = companyId };
+            var result = _db.Database.SqlQuery<ResourceDownloadsReport>("GetAllResourceDownloads @strProfileId,@PlaybookId,@StartDate,@EndDate,@PageId,@ComapnyId", profileIdsPara, playbookIdPara, startDatePara, endDatePara, pageIdPara, companyIdPara).ToList();
+            return result;
+        }
+
+
+======================= objext  ResourceDownloadsReport=====================
+
+ [NotMapped]
+    public class ResourceDownloadsReport
+    {
+        public int Id { get; set; }
+        //public int CompanyId { get; set; }
+        public int profileId { get; set; }
+        //public string CompanyName { get; set; }
+        //public string FirstName { get; set; }
+        //public string LastName { get; set; }
+        //public string Email { get; set; }
+        public string ResourceTitle { get; set; }
+        public string PlaybookTitle { get; set; }
+        public string PageTitle { get; set; }
+        public int OnlineViews { get; set; }
+        public int OnlineDownload { get; set; }
+        public int OfflineViews { get; set; }
+        public int OfflineDownload { get; set; }
+        public int TotalDownload { get; set; }
+        public int TotalViews { get; set; }
+        public int PlaybookId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Manager { get; set; }
+
+
+        //public List<CustomFieldsMasterWithValues> CustomValues { get; set; }
+
+    }
